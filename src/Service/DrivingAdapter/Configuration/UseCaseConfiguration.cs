@@ -7,7 +7,7 @@ public static class UseCaseConfiguration
 {
     public static IServiceCollection AddUseCase(this IServiceCollection services)
     {
-        services.AddTransient<IFoodItemFetcher, FoodItemFetcher>();
+        services.AddTransient<IFoodItemUseCase, FoodItemUseCase>();
 
         return services;
     }
