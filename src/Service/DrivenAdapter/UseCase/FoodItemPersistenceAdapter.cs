@@ -4,7 +4,7 @@ using Domain.Port.Driven;
 using Microsoft.EntityFrameworkCore;
 using Service.DrivenAdapter.DatabaseAdapter.Entities;
 
-namespace Service.DrivenAdapter.DatabaseAdapter;
+namespace Service.DrivenAdapter.DatabaseAdapter.UseCase;
 
 public class FoodItemPersistenceAdapter : IFoodItemPersistencePort
 {

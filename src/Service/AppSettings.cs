@@ -4,6 +4,6 @@ namespace Service;
 
 public class AppSettings
 {
-    public string DatabaseConnection { get; set; }
-    public string ReverseGeocodingBaseUrl { get; set; }
+   public LoggingSettings Logging { get; set; }
+   public string DatabaseConnection { get; set; }
 }

@@ -1,26 +1,4 @@
-version: "3.7"
-
 services:
-   postgres-data:
-      image: postgres:alpine
-      environment:
-         - POSTGRES_USER=postgres
-         - POSTGRES_PASSWORD=docker
-      ports:
-         - "5432:5432"
-
-   timescaledb:
-      container_name: timescaledb
-      image: timescale/timescaledb-ha:pg15-all
-      environment:
-         - POSTGRES_USER=usr
-         - POSTGRES_PASSWORD=NOTMYPASSWORD
-         - POSTGRES_DB=ha
-      restart: unless-stopped
-      volumes:
-         - "/timescale/timescaledb/pgdata:/home/postgres/pgdata"
-         - "/timescale/oldtimescale:/mnt/olddata"
-
    health-traker:
       image: health-traker:${VERSION:-latest}
       environment:
@@ -30,5 +8,3 @@ services:
       build:
          context: .
          dockerfile: Service/Dockerfile
-      depends_on:
-         - postgres-data

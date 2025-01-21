@@ -4,7 +4,7 @@ public class Meal
 {
    public string MealId {get;set;}
    public string Name {get;set;}
-   public List<MealItem> MealItems {get; set;} =  new List<MealItem>();
+   public List<MealPart> MealParts {get; set;} =  new List<MealPart>();
    public string EatAt {get;set;}
 
    // Optional: Add total calories, macros, etc. calculated from MealParts

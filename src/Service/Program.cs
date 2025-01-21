@@ -12,7 +12,10 @@ builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSetti
 AppSettings appSettings = new();
 configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
 
-// 2. Add services step
+// 2. Configure logging from AppSettings
+
+builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
+// 3. Add services step
 
 builder.Services.AddControllers(options =>
 {
@@ -20,11 +23,11 @@ builder.Services.AddControllers(options =>
 });
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddUseCases();
-builder.Services.AddThirdParties(appSettings);
+// builder.Services.AddThirdParties(appSettings);
 builder.Services.AddAutoMapper(Assembly.Load(typeof(Program).Assembly.GetName().Name!));
 builder.Services.AddDatabase(appSettings.DatabaseConnection);
 
-// 3. Use services step
+// 4. Use services step
 
 WebApplication app = builder.Build();
 
@@ -35,6 +38,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-// 4. Application startup step
+// 5. Application startup step
 
 app.Run();
