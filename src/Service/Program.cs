@@ -19,7 +19,7 @@ builder.Services.AddHealthChecks();
 
 // 2. Configure logging from AppSettings
 
-// builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
+builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
 
 // 3. Add services step
 
@@ -48,12 +48,8 @@ WebApplication app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.UseRouting();
-// app.UseEndpoints(endpoints =>
-// {
-//    endpoints.MapControllers();
-// });
-app.MapHealthChecks("/health"); // Maps to /health endpoint
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 // 5. Application startup step
 
