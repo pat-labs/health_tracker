@@ -1,5 +1,5 @@
 using Service;
-using Service.DrivenAdapter.DatabaseAdapter.Configuration;
+using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Configuration;
 using Service.DrivingAdapter.Configuration;
 using System.Reflection;
 
@@ -15,6 +15,7 @@ configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
 // 2. Configure logging from AppSettings
 
 builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
+
 // 3. Add services step
 
 builder.Services.AddControllers(options =>
@@ -25,7 +26,16 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddUseCases();
 // builder.Services.AddThirdParties(appSettings);
 builder.Services.AddAutoMapper(Assembly.Load(typeof(Program).Assembly.GetName().Name!));
-builder.Services.AddDatabase(appSettings.DatabaseConnection);
+try
+{
+    var connectionString = $"Host={Environment.GetEnvironmentVariable("POSTGRES_HOST")}:{Environment.GetEnvironmentVariable("POSTGRES_PORT")};Database={Environment.GetEnvironmentVariable("POSTGRES_DB")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};";
+    builder.Services.AddDatabase(connectionString);
+}
+catch (Exception ex)
+{
+    // Handle the exception appropriately, log the error, or throw a more specific exception
+    Console.WriteLine($"Error configuring database connection: {ex.Message}");
+}
 
 // 4. Use services step
 

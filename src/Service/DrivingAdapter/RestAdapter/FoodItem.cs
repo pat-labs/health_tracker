@@ -11,7 +11,7 @@ namespace Service.DrivingAdapter.RestAdapter;
 [ApiController]
 [Produces(MediaTypeNames.Application.Json)]
 [Route("food_item")]
-public class FoodItem: ControllerBase
+public class FoodItem : ControllerBase
 {
    private readonly IMapper _mapper;
    private readonly IFoodItemUseCase _foodItemUseCase;

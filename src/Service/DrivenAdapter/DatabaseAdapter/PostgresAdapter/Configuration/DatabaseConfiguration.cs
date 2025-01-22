@@ -2,7 +2,7 @@ using Domain.Port.Driven;
 using Microsoft.EntityFrameworkCore;
 using Service.DrivenAdapter.DatabaseAdapter.Migrations;
 
-namespace Service.DrivenAdapter.DatabaseAdapter.Configuration;
+namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Configuration;
 
 public static class DatabaseAdapterConfiguration
 {

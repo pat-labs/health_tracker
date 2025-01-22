@@ -1,8 +1,8 @@
 services:
    health-traker:
       image: health-traker:${VERSION:-latest}
-      environment:
-         - ASPNETCORE_ENVIRONMENT=Development
+      env_file:
+         - ./.env
       ports:
          - "33030:80"
       build:

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Domain.Model;
 
-namespace Service.DrivenAdapter.DatabaseAdapter.Entities.Mappings;
+namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Entities.Mappings;
 
 public class FoodItemMappingProfile : Profile
 {

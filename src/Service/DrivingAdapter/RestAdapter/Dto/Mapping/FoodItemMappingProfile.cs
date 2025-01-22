@@ -7,6 +7,6 @@ public class FoodItemMappingProfile : FoodItemMappingProfile
 {
    public FoodItemMappingProfile()
    {
-      CreateMap<FoodItem, FoodItemDto>(); 
+      CreateMap<FoodItem, FoodItemDto>();
    }
 }

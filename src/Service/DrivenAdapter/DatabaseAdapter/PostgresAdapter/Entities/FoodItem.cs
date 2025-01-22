@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable warnings
-namespace Service.DrivenAdapter.DatabaseAdapter.Entities;
+namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Entities;
 
 [Table("food_item")]
 public class FoodItemEntity

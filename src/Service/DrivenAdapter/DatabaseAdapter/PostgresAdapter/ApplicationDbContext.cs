@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Service.DrivenAdapter.DatabaseAdapter.Entities;
+using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Entities;
 
 #nullable disable warnings
-namespace Service.DrivenAdapter.DatabaseAdapter;
+namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter;
 
 public class ApplicationDbContext : DbContext
 {

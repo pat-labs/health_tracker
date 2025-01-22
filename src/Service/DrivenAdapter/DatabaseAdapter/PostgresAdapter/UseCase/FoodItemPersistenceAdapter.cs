@@ -2,9 +2,9 @@ using AutoMapper;
 using Domain.Model;
 using Domain.Port.Driven;
 using Microsoft.EntityFrameworkCore;
-using Service.DrivenAdapter.DatabaseAdapter.Entities;
+using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Entities;
 
-namespace Service.DrivenAdapter.DatabaseAdapter.UseCase;
+namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.UseCase;
 
 public class FoodItemPersistenceAdapter : IFoodItemPersistencePort
 {
