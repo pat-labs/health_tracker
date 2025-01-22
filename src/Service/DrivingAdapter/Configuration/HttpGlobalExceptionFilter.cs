@@ -1,4 +1,4 @@
-using Domain.Exceptions;
+using Domain.Except;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
@@ -7,38 +7,38 @@ namespace Service.DrivingAdapter.Configuration;
 
 public class HttpGlobalExceptionFilter : IExceptionFilter
 {
-    private readonly ILogger<HttpGlobalExceptionFilter> _logger;
+   private readonly ILogger<HttpGlobalExceptionFilter> _logger;
 
-    public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger)
-    {
-        _logger = logger;
-    }
+   public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger)
+   {
+      _logger = logger;
+   }
 
-    public void OnException(ExceptionContext context)
-    {
-        int code = StatusCodes.Status500InternalServerError;
+   public void OnException(ExceptionContext context)
+   {
+      int code = StatusCodes.Status500InternalServerError;
 
-        switch (context.Exception)
-        {
-            case FoodItemNotFoundException _:
-                {
-                    code = (int)HttpStatusCode.NotFound;
-                    break;
-                }
-            default:
-                break;
-        }
-        _logger.LogWarning(context.Exception, "Handled exception thrown");
-
-        context.Result = new ObjectResult(
-            new
+      switch (context.Exception)
+      {
+         case NotFoundException _:
             {
-                context.Exception.Message,
-                Code = $"{code}"
+               code = (int)HttpStatusCode.NotFound;
+               break;
             }
-        );
-        context.HttpContext.Response.StatusCode = code;
+         default:
+            break;
+      }
+      _logger.LogWarning(context.Exception, "Handled exception thrown");
 
-        context.ExceptionHandled = true;
-    }
+      context.Result = new ObjectResult(
+          new
+          {
+             context.Exception.Message,
+             Code = $"{code}"
+          }
+      );
+      context.HttpContext.Response.StatusCode = code;
+
+      context.ExceptionHandled = true;
+   }
 }

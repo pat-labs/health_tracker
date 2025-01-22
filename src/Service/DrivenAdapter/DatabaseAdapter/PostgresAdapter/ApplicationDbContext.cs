@@ -6,9 +6,9 @@ namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
+   public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+   {
+   }
 
-    public DbSet<FoodItemEntity> FoodItems { get; set; }
+   public DbSet<FoodItemEntity> FoodItems { get; set; }
 }

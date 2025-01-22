@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 using Service;
 using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Configuration;
 using Service.DrivingAdapter.Configuration;
@@ -12,15 +14,18 @@ builder.Services.Configure<AppSettings>(configuration.GetSection(nameof(AppSetti
 AppSettings appSettings = new();
 configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
 
+// Basic health check
+builder.Services.AddHealthChecks();
+
 // 2. Configure logging from AppSettings
 
-builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
+// builder.Logging.AddConfiguration(configuration.GetSection("Logging"));
 
 // 3. Add services step
 
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+   options.Filters.Add(typeof(HttpGlobalExceptionFilter));
 });
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddUseCases();
@@ -28,13 +33,13 @@ builder.Services.AddUseCases();
 builder.Services.AddAutoMapper(Assembly.Load(typeof(Program).Assembly.GetName().Name!));
 try
 {
-    var connectionString = $"Host={Environment.GetEnvironmentVariable("POSTGRES_HOST")}:{Environment.GetEnvironmentVariable("POSTGRES_PORT")};Database={Environment.GetEnvironmentVariable("POSTGRES_DB")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};";
-    builder.Services.AddDatabase(connectionString);
+   var connectionString = $"Host={Environment.GetEnvironmentVariable("POSTGRES_HOST")}:{Environment.GetEnvironmentVariable("POSTGRES_PORT")};Database={Environment.GetEnvironmentVariable("POSTGRES_DB")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};";
+   builder.Services.AddDatabase(connectionString);
 }
 catch (Exception ex)
 {
-    // Handle the exception appropriately, log the error, or throw a more specific exception
-    Console.WriteLine($"Error configuring database connection: {ex.Message}");
+   // Handle the exception appropriately, log the error, or throw a more specific exception
+   Console.WriteLine($"Error configuring database connection: {ex.Message}");
 }
 
 // 4. Use services step
@@ -43,10 +48,12 @@ WebApplication app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+// app.UseEndpoints(endpoints =>
+// {
+//    endpoints.MapControllers();
+// });
+app.MapHealthChecks("/health"); // Maps to /health endpoint
+app.MapControllers();
 
 // 5. Application startup step
 

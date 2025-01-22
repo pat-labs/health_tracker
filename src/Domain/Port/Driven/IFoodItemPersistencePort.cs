@@ -4,7 +4,7 @@ namespace Domain.Port.Driven;
 
 public interface IFoodItemPersistencePort
 {
-   Task<List<FoodItem>> FetchAsync();
+   Task<IEnumerable<FoodItem>> FetchAsync();
    Task<FoodItem?> FetchByIdAsync(string id);
    Task CreateAsync(FoodItem foodItem);
    Task UpdateAsync(FoodItem foodItem);
