@@ -1,10 +1,17 @@
 services:
    health-traker:
       image: health-traker:${VERSION:-latest}
+      container_name: ${APP_HOST:-health_tracker}_${APP_VERSION:-0.0.0}
       env_file:
          - ./.env
       ports:
-         - "33030:80"
+         - "${APP_PORT:-9090}:${APP_PORT:-9090}"
       build:
          context: .
          dockerfile: Service/Dockerfile
+      networks:
+         - public
+
+networks:
+  public:
+    external: true
