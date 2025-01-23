@@ -2,7 +2,6 @@ using System.Linq;
 
 using Domain.Except;
 using Domain.Model;
-using Domain.Port.Driven;
 using Domain.Port.Driving;
 
 namespace Domain.UseCase;

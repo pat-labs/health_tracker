@@ -71,7 +71,7 @@ public class FoodItemBuilder
        double carbsPer100g,
        double fatPer100g)
    {
-      List<string> errs = new List<string>(); // Corrected type and initialization
+      List<string> errs = new List<string>();
       errs.Add(IsValidFoodItemId(foodItemId));
       errs.Add(IsValidName(name));
       errs.Add(IsValidCaloriesPer100g(caloriesPer100g));
@@ -79,7 +79,7 @@ public class FoodItemBuilder
       errs.Add(IsValidCarbsPer100g(carbsPer100g));
       errs.Add(IsValidFatPer100g(fatPer100g));
 
-      return errs.Where(s => !string.IsNullOrEmpty(s)).ToList(); // Filter empty errors using LINQ
+      return errs.Where(s => !string.IsNullOrEmpty(s)).ToList();
    }
 
    public FoodItem NewFoodItem(
@@ -90,10 +90,10 @@ public class FoodItemBuilder
        double carbsPer100g,
        double fatPer100g)
    {
-      List<string> errors = IsValid(foodItemId, name, caloriesPer100g, proteinPer100g, carbsPer100g, fatPer100g); // Corrected type
-      if (errors.Any()) // Use Any() to check if the list has elements
+      List<string> errors = IsValid(foodItemId, name, caloriesPer100g, proteinPer100g, carbsPer100g, fatPer100g);
+      if (errors.Any())
       {
-         throw new DomainException(string.Join("\n", errors)); // Join errors with newline
+         throw new ValueErrorException(errors);
       }
       return new FoodItem(
           foodItemId,
