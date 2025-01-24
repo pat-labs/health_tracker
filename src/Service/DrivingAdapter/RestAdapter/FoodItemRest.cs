@@ -18,8 +18,10 @@ public class FoodItemRest : ControllerBase
 {
    [HttpGet()]
    [ProducesResponseType(typeof(FoodItemDto), Status200OK)]
+   [ProducesResponseType(typeof(void), Status404NotFound)]
    public async Task<FoodItemDto> Fetch()
    {
+      Console.WriteLine("Enter to function");
       FoodItem foodItem = FoodItemBuilder.NewFoodItem("4f0d17ef-489d-4644-91b2-151034794d41", "Example Food", 200.50, 10.25, 25.75, 5.00);
       return FoodItemMapper.AdaptToDto(foodItem);
    }
