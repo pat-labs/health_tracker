@@ -6,7 +6,7 @@
     <ProjectGuid>fbbe1c45-dd85-4656-a102-24db744c9125</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>architecture-rught-way</DockerServiceName>
+    <DockerServiceName>health_tracker</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.yml" />

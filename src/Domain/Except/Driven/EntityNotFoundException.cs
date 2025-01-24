@@ -1,4 +1,5 @@
-namespace Domain.Except;
+namespace Domain.Except.Driven;
+
 
 [Serializable]
 public class EntityNotFoundException : Exception

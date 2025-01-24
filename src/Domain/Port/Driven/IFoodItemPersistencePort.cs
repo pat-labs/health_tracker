@@ -1,6 +1,9 @@
+using System.Linq;
+
 using Domain.Model;
 
 namespace Domain.Port.Driven;
+
 
 public interface IFoodItemPersistencePort
 {

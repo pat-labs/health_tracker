@@ -1,3 +1,3 @@
--  [base_code](https://github.com/odinnou/hexagonal-architecture-right-way?tab=readme-ov-file)
--  [biolerplate](https://github.com/lkurzyniec/netcore-boilerplate)
--  [mapper](https://medium.com/codenx/mapster-high-performance-mapper-for-net-767a3f361043)
+- [base_code](https://github.com/odinnou/hexagonal-architecture-right-way?tab=readme-ov-file)
+- [biolerplate](https://github.com/lkurzyniec/netcore-boilerplate)
+- [mapper](https://medium.com/codenx/mapster-high-performance-mapper-for-net-767a3f361043)

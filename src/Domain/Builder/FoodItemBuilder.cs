@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Domain.Model;
-using Domain.Except;
+using Domain.Except.Driving;
 
 namespace Domain.Builder;
 
-public class FoodItemBuilder
+
+public static class FoodItemBuilder
 {
-   public string IsValidFoodItemId(string foodItemId)
+   public static string IsValidFoodItemId(string foodItemId)
    {
       string error = "";
       if (string.IsNullOrEmpty(foodItemId) || foodItemId.Length > 19) // Corrected logic and added OR condition
@@ -18,7 +19,7 @@ public class FoodItemBuilder
       return error;
    }
 
-   public string IsValidName(string name) // Added parameter
+   public static string IsValidName(string name) // Added parameter
    {
       if (string.IsNullOrEmpty(name) || name.Length > 200)
       {
@@ -27,7 +28,7 @@ public class FoodItemBuilder
       return "";
    }
 
-   public string IsValidCaloriesPer100g(double caloriesPer100g) // Added parameter
+   public static string IsValidCaloriesPer100g(double caloriesPer100g) // Added parameter
    {
       if (caloriesPer100g < 0)
       {
@@ -36,7 +37,7 @@ public class FoodItemBuilder
       return "";
    }
 
-   public string IsValidProteinPer100g(double proteinPer100g) // Added parameter
+   public static string IsValidProteinPer100g(double proteinPer100g) // Added parameter
    {
       if (proteinPer100g < 0)
       {
@@ -45,7 +46,7 @@ public class FoodItemBuilder
       return "";
    }
 
-   public string IsValidCarbsPer100g(double carbsPer100g) // Added parameter
+   public static string IsValidCarbsPer100g(double carbsPer100g) // Added parameter
    {
       if (carbsPer100g < 0)
       {
@@ -54,7 +55,7 @@ public class FoodItemBuilder
       return "";
    }
 
-   public string IsValidFatPer100g(double fatPer100g) // Added parameter
+   public static string IsValidFatPer100g(double fatPer100g) // Added parameter
    {
       if (fatPer100g < 0)
       {
@@ -63,7 +64,7 @@ public class FoodItemBuilder
       return "";
    }
 
-   public List<string> IsValid(
+   public static List<string> IsValid(
        string foodItemId,
        string name,
        double caloriesPer100g,
@@ -82,7 +83,7 @@ public class FoodItemBuilder
       return errs.Where(s => !string.IsNullOrEmpty(s)).ToList();
    }
 
-   public FoodItem NewFoodItem(
+   public static FoodItem NewFoodItem(
        string foodItemId,
        string name,
        double caloriesPer100g,

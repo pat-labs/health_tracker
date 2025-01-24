@@ -4,6 +4,7 @@ using Domain.Model;
 
 namespace Domain.Port.Driving;
 
+
 public interface IFoodItemUseCase
 {
    Task<IEnumerable<FoodItem>> Fetch();

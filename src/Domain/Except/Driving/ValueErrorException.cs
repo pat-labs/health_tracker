@@ -1,5 +1,6 @@
 namespace Domain.Except.Driving;
 
+
 [Serializable]
 public class ValueErrorException : Exception
 {
