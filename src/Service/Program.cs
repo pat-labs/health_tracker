@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.MapControllers();
 
 var port = Environment.GetEnvironmentVariable("APP_PORT");
 if (!int.TryParse(port, out int appPort))

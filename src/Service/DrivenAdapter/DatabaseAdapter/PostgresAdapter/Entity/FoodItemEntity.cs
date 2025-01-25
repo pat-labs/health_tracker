@@ -8,10 +8,12 @@ namespace Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Entity;
 [Table("food_item")]
 public class FoodItemEntity
 {
-   public string FoodItemId { get; set; }
-   public string Name { get; set; }
-   public double CaloriesPer100g { get; set; }
-   public double ProteinPer100g { get; set; }
-   public double CarbsPer100g { get; set; }
-   public double FatPer100g { get; set; }
+    [Key]
+    public string food_item_id { get; set; }
+
+    public string name { get; set; }
+    public double calories_per_100g { get; set; }
+    public double protein_per_100g { get; set; }
+    public double carbs_per_100g { get; set; }
+    public double fat_per_100g { get; set; }
 }

@@ -32,7 +32,7 @@ public class FoodItemPersistenceAdapter : IFoodItemPersistencePort
    public async Task<FoodItem?> FetchByIdAsync(string foodItemId)
    {
       FoodItemEntity? foodItemEntity = await _applicationDbContext.FoodItems
-         .Where(rule => rule.FoodItemId == foodItemId)
+         .Where(rule => rule.food_item_id == foodItemId)
          .AsNoTracking()
          .FirstOrDefaultAsync();
       return foodItemEntity != null ? FoodItemMapper.AdaptToModel(foodItemEntity) : null;

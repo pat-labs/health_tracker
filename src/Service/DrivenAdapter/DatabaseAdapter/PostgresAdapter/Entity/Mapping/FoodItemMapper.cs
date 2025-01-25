@@ -9,12 +9,12 @@ public static class FoodItemMapper
    {
       return new FoodItem
       {
-         FoodItemId = foodItemEntity.FoodItemId,
-         Name = foodItemEntity.Name,
-         CaloriesPer100g = foodItemEntity.CaloriesPer100g,
-         ProteinPer100g = foodItemEntity.ProteinPer100g,
-         CarbsPer100g = foodItemEntity.CarbsPer100g,
-         FatPer100g = foodItemEntity.FatPer100g
+         FoodItemId = foodItemEntity.food_item_id,
+         Name = foodItemEntity.name,
+         CaloriesPer100g = foodItemEntity.calories_per_100g,
+         ProteinPer100g = foodItemEntity.protein_per_100g,
+         CarbsPer100g = foodItemEntity.carbs_per_100g,
+         FatPer100g = foodItemEntity.fat_per_100g
       };
    }
 
@@ -22,12 +22,12 @@ public static class FoodItemMapper
    {
       return new FoodItemEntity
       {
-         FoodItemId = foodItem.FoodItemId,
-         Name = foodItem.Name,
-         CaloriesPer100g = foodItem.CaloriesPer100g,
-         ProteinPer100g = foodItem.ProteinPer100g,
-         CarbsPer100g = foodItem.CarbsPer100g,
-         FatPer100g = foodItem.FatPer100g
+         food_item_id = foodItem.FoodItemId,
+         name = foodItem.Name,
+         calories_per_100g = foodItem.CaloriesPer100g,
+         protein_per_100g = foodItem.ProteinPer100g,
+         carbs_per_100g = foodItem.CarbsPer100g,
+         fat_per_100g = foodItem.FatPer100g
       };
    }
 }

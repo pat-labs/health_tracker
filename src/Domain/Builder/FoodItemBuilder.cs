@@ -83,6 +83,18 @@ public static class FoodItemBuilder
       return errs.Where(s => !string.IsNullOrEmpty(s)).ToList();
    }
 
+   public static List<string> IsValid(FoodItem foodItem)
+   {
+      return IsValid(
+         foodItem.FoodItemId,
+         foodItem.Name,
+         foodItem.CaloriesPer100g,
+         foodItem.ProteinPer100g,
+         foodItem.CarbsPer100g,
+         foodItem.FatPer100g
+      );
+   }
+
    public static FoodItem NewFoodItem(
        string foodItemId,
        string name,
