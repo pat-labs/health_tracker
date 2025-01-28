@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Load variables from .env file
+source .env
+
+# Functions
+getFoodItem() {
+    curl -X GET "$URL/food_item?writeUId=$1"
+}
+
+getFoodItemById() {
+    curl -X GET "$URL/food_item/$1?writeUId=$1"
+}
+
+deleteFoodItem() {
+    curl -X DELETE "$URL/food_item/$1?writeUId=$1"
+}
+
+createFoodItem() {
+    id=$1
+    curl -X POST "$URL/food_item" \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        -d '{
+            "writeUId":"'"$id"'",
+            "foodItemId":"'"$id"'",
+            "name":"Example Food",
+            "caloriesPer100g":200.5,
+            "proteinPer100g":10.25,
+            "carbsPer100g":25.75,
+            "fatPer100g":5
+        }'
+}
+
+updateFoodItem() {
+    curl -X PUT "$URL/food_item/$1" \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        -d '{
+            "writeUId":"'"$1"'",
+            "FatPer100g": 10
+        }'
+}
+
+# Variables
+URL="http://localhost:${APP_PORT:-9090}"
+ID='1883146682376388608'
+
+# Testing all functions
+# echo "Testing createFoodItem()"
+# createFoodItem "$ID"
+
+# echo "Testing getFoodItem()"
+# getFoodItem "$ID"
+
+echo "Testing updateFoodItem()"
+updateFoodItem "$ID"
+
+# echo "Testing getFoodItemById()"
+# getFoodItemById "$ID"
+
+# echo "Testing deleteFoodItem()"
+# deleteFoodItem "$ID"

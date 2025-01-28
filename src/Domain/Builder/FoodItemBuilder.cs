@@ -64,6 +64,43 @@ public static class FoodItemBuilder
       return "";
    }
 
+   public static MissingValues(){
+      List<string> missingAttributes = new List<string>();
+
+        if (string.IsNullOrEmpty(foodItemId))
+        {
+            missingAttributes.Add("foodItemId");
+        }
+        if (string.IsNullOrEmpty(name))
+        {
+            missingAttributes.Add("name");
+        }
+        if (caloriesPer100g <= 0)
+        {
+            missingAttributes.Add("caloriesPer100g");
+        }
+        if (proteinPer100g <= 0)
+        {
+            missingAttributes.Add("proteinPer100g");
+        }
+        if (carbsPer100g <= 0)
+        {
+            missingAttributes.Add("carbsPer100g");
+        }
+        if (fatPer100g <= 0)
+        {
+            missingAttributes.Add("fatPer100g");
+        }
+
+        if (missingAttributes.Any())
+        {
+            throw new MissingValuesException(missingAttributes);
+        }
+
+        List<string> errors = IsValid(foodItemId, name, caloriesPer100g, proteinPer100g, carbsPer100g, fatPer100g);
+        return errors;
+   }
+
    public static List<string> IsValid(
        string foodItemId,
        string name,
@@ -95,7 +132,7 @@ public static class FoodItemBuilder
       );
    }
 
-   public static FoodItem NewFoodItem(
+   public static FoodItem create(
        string foodItemId,
        string name,
        double caloriesPer100g,
@@ -103,7 +140,21 @@ public static class FoodItemBuilder
        double carbsPer100g,
        double fatPer100g)
    {
-      List<string> errors = IsValid(foodItemId, name, caloriesPer100g, proteinPer100g, carbsPer100g, fatPer100g);
+      if not(
+         string.IsNullOrEmpty(foodItem)
+         && string.IsNullOrEmpty(name)
+         && caloriesPer100g > 0
+         && proteinPer100g > 0
+         && caloriesPer100g > 0
+         && fatPer100g > 0){}
+         throws MissingValuesException(attrs)}
+      List<string> errors = IsValid(
+         foodItemId,
+         name,
+         caloriesPer100g,
+         proteinPer100g,
+         carbsPer100g,
+         fatPer100g);
       if (errors.Any())
       {
          throw new ValueErrorException(errors);
