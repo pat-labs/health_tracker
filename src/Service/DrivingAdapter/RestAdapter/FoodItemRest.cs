@@ -102,7 +102,7 @@ public class FoodItemRest : ControllerBase
 
    [HttpPost]
    [ProducesResponseType(typeof(string), Status201Created)]
-   [ProducesResponseType(typeof(string), Status400BadRequest)] // Changed return type to string for error message
+   [ProducesResponseType(typeof(string), Status400BadRequest)]
    public async Task<ActionResult<FoodItemDto>> Create([FromBody] FoodItemDto foodItemDto)
    {
       if (!ModelState.IsValid)
