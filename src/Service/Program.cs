@@ -32,13 +32,13 @@ catch (Exception ex)
 var app = builder.Build();
 
 app.MapHealthChecks("/health");
-if (Environment.GetEnvironmentVariable("IS_IN_PRODUCTION"))
+if (bool.TryParse(Environment.GetEnvironmentVariable("IS_IN_PRODUCTION") ?? "false", out bool isProduction) && isProduction)
 {
    app.MapOpenApi();
    app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
 

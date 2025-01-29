@@ -90,7 +90,7 @@ public class FoodItemRest : ControllerBase
       }
 
       FoodItem foodItem = FoodItemMapper.AdaptToModel(foodItemDto);
-      List<string> errors = FoodItemFactory.IsValid(foodItem);
+      List<string> errors = FoodItemFactory.IsPartialValid(foodItem);
       if (errors.Any())
       {
          return BadRequest(string.Join("\n", errors));

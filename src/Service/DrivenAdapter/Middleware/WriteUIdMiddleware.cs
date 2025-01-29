@@ -5,26 +5,25 @@ namespace Service.DrivenAdapter.Middleware;
 
 public class WriteUIdMiddleware
 {
-    private readonly RequestDelegate _next;
+   private readonly RequestDelegate _next;
 
-    public WriteUIdMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
+   public WriteUIdMiddleware(RequestDelegate next)
+   {
+      _next = next;
+   }
 
-    public async Task InvokeAsync(HttpContext context)
-    {
-        if (!context.Request.Query.ContainsKey("writeUid"))
-        {
-            // Cancel the request
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            await context.Response.WriteAsync("writeUid parameter is required.");
-            return;
-        }
+   public async Task InvokeAsync(HttpContext context)
+   {
+      if (!context.Request.Query.ContainsKey("writeUId"))
+      {
+         context.Response.StatusCode = StatusCodes.Status400BadRequest;
+         await context.Response.WriteAsync("writeUid parameter is required.");
+         return;
+      }
 
-        string writeUidValue = context.Request.Query["writeUid"];
-        context.Items["writeUid"] = writeUidValue;
+      string writeUIdValue = context.Request.Query["writeUId"].FirstOrDefault() ?? string.Empty;
+      context.Items["writeUId"] = writeUIdValue;
 
-        await _next(context);
-    }
+      await _next(context);
+   }
 }

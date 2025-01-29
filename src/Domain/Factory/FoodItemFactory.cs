@@ -15,7 +15,7 @@ namespace Domain.Factory
          {
             return "Id could not be empty and the max length is 19";
          }
-         return "";
+         return string.Empty;
       }
 
       public static string IsValidName(string name)
@@ -24,7 +24,7 @@ namespace Domain.Factory
          {
             return "Name could not be empty and the max length is 200";
          }
-         return "";
+         return string.Empty;
       }
 
       public static string IsValidCaloriesPer100g(double caloriesPer100g)
@@ -33,7 +33,7 @@ namespace Domain.Factory
          {
             return "Calories must be positive";
          }
-         return "";
+         return string.Empty;
       }
 
       public static string IsValidProteinPer100g(double proteinPer100g)
@@ -42,7 +42,7 @@ namespace Domain.Factory
          {
             return "Protein must be positive";
          }
-         return "";
+         return string.Empty;
       }
 
       public static string IsValidCarbsPer100g(double carbsPer100g)
@@ -51,7 +51,7 @@ namespace Domain.Factory
          {
             return "Carbs must be positive";
          }
-         return "";
+         return string.Empty;
       }
 
       public static string IsValidFatPer100g(double fatPer100g)
@@ -60,152 +60,83 @@ namespace Domain.Factory
          {
             return "Fat must be positive";
          }
-         return "";
-      }
-
-      public static List<string> MissingValues(string foodItemId, string name, double caloriesPer100g, double proteinPer100g, double carbsPer100g, double fatPer100g)
-      {
-         List<string> missingAttributes = new List<string>();
-
-         if (string.IsNullOrEmpty(foodItemId))
-         {
-            missingAttributes.Add("foodItemId");
-         }
-         if (string.IsNullOrEmpty(name))
-         {
-            missingAttributes.Add("name");
-         }
-         if (caloriesPer100g <= 0)
-         {
-            missingAttributes.Add("caloriesPer100g");
-         }
-         if (proteinPer100g <= 0)
-         {
-            missingAttributes.Add("proteinPer100g");
-         }
-         if (carbsPer100g <= 0)
-         {
-            missingAttributes.Add("carbsPer100g");
-         }
-         if (fatPer100g <= 0)
-         {
-            missingAttributes.Add("fatPer100g");
-         }
-
-         return missingAttributes;
-      }
-
-      public static List<string> IsValid(string foodItemId, string name, double caloriesPer100g, double proteinPer100g, double carbsPer100g, double fatPer100g)
-      {
-         List<string> errs = new List<string>();
-         errs.Add(IsValidFoodItemId(foodItemId));
-         errs.Add(IsValidName(name));
-         errs.Add(IsValidCaloriesPer100g(caloriesPer100g));
-         errs.Add(IsValidProteinPer100g(proteinPer100g));
-         errs.Add(IsValidCarbsPer100g(carbsPer100g));
-         errs.Add(IsValidFatPer100g(fatPer100g));
-
-         return errs.Where(s => !string.IsNullOrEmpty(s)).ToList();
+         return string.Empty;
       }
 
       public static List<string> IsValid(FoodItem foodItem)
       {
-         return IsValid(
-             foodItem.FoodItemId,
-             foodItem.Name,
-             foodItem.CaloriesPer100g,
-             foodItem.ProteinPer100g,
-             foodItem.CarbsPer100g,
-             foodItem.FatPer100g
-         );
-      }
-
-      public static FoodItem Create(
-          string foodItemId,
-          string name,
-          double caloriesPer100g,
-          double proteinPer100g,
-          double carbsPer100g,
-          double fatPer100g)
-      {
-         List<string> missingAttributes = MissingValues(foodItemId, name, caloriesPer100g, proteinPer100g, carbsPer100g, fatPer100g);
+         List<string> missingAttributes = new List<string>();
+         if (string.IsNullOrEmpty(foodItem.FoodItemId))
+         {
+            missingAttributes.Add("foodItemId");
+         }
+         if (string.IsNullOrEmpty(foodItem.Name))
+         {
+            missingAttributes.Add("name");
+         }
+         if (foodItem.CaloriesPer100g <= 0)
+         {
+            missingAttributes.Add("caloriesPer100g");
+         }
+         if (foodItem.ProteinPer100g <= 0)
+         {
+            missingAttributes.Add("proteinPer100g");
+         }
+         if (foodItem.CarbsPer100g <= 0)
+         {
+            missingAttributes.Add("carbsPer100g");
+         }
+         if (foodItem.FatPer100g <= 0)
+         {
+            missingAttributes.Add("fatPer100g");
+         }
          if (missingAttributes.Any())
          {
-            throw new MissingValuesException(missingAttributes);
+            return missingAttributes;
          }
 
-         List<string> errors = IsValid(
-             foodItemId,
-             name,
-             caloriesPer100g,
-             proteinPer100g,
-             carbsPer100g,
-             fatPer100g);
-         if (errors.Any())
+         List<string> errors = new List<string>
          {
-            throw new ValueErrorException(errors);
-         }
-
-         return new FoodItem(
-             foodItemId,
-             name,
-             caloriesPer100g,
-             proteinPer100g,
-             carbsPer100g,
-             fatPer100g
-         );
+            IsValidFoodItemId(foodItem.FoodItemId),
+            IsValidName(foodItem.Name),
+            IsValidCaloriesPer100g(foodItem.CaloriesPer100g),
+            IsValidProteinPer100g(foodItem.ProteinPer100g),
+            IsValidCarbsPer100g(foodItem.CarbsPer100g),
+            IsValidFatPer100g(foodItem.FatPer100g)
+         };
+         return errors.Where(s => !string.IsNullOrEmpty(s)).ToList();
       }
 
-      public static FoodItem Update(
-          string foodItemId,
-          string name,
-          double? caloriesPer100g,
-          double? proteinPer100g,
-          double? carbsPer100g,
-          double? fatPer100g)
+      public static List<string> IsPartialValid(FoodItem foodItem)
       {
-         string idError = IsValidFoodItemId(foodItemId);
+         List<string> errors = new List<string>();
+         string idError = IsValidFoodItemId(foodItem.FoodItemId);
          if (!string.IsNullOrEmpty(idError))
          {
-            throw new ValueErrorException(new List<string> { idError });
+            errors.Add(idError);
+            return errors;
          }
-
-         // Prepare the list of updated values (only those that are not null)
-         List<string> errors = new List<string>();
-
-         if (caloriesPer100g.HasValue)
+         if (!string.IsNullOrEmpty(foodItem.Name))
          {
-            errors.Add(IsValidCaloriesPer100g(caloriesPer100g.Value));
+            errors.Add(IsValidName(foodItem.Name));
          }
-
-         if (proteinPer100g.HasValue)
+         if (foodItem.CaloriesPer100g >= 0)
          {
-            errors.Add(IsValidProteinPer100g(proteinPer100g.Value));
+            errors.Add(IsValidCaloriesPer100g(foodItem.CaloriesPer100g));
          }
-
-         if (carbsPer100g.HasValue)
+         if (foodItem.ProteinPer100g >= 0)
          {
-            errors.Add(IsValidCarbsPer100g(carbsPer100g.Value));
+            errors.Add(IsValidProteinPer100g(foodItem.ProteinPer100g));
          }
-
-         if (fatPer100g.HasValue)
+         if (foodItem.CarbsPer100g >= 0)
          {
-            errors.Add(IsValidFatPer100g(fatPer100g.Value));
+            errors.Add(IsValidCarbsPer100g(foodItem.CarbsPer100g));
          }
-
-         if (errors.Any())
+         if (foodItem.FatPer100g >= 0)
          {
-            throw new ValueErrorException(errors.Where(e => !string.IsNullOrEmpty(e)).ToList());
+            errors.Add(IsValidFatPer100g(foodItem.FatPer100g));
          }
-
-         return new FoodItem(
-             foodItemId,
-             name ?? "",
-             caloriesPer100g ?? 0,
-             proteinPer100g ?? 0,
-             carbsPer100g ?? 0,
-             fatPer100g ?? 0
-         );
+         return errors.Where(e => !string.IsNullOrEmpty(e)).ToList();
       }
    }
 }
