@@ -17,14 +17,14 @@ public class WriteUIdMiddleware
         if (!context.Request.Query.ContainsKey("writeUid"))
         {
             // Cancel the request
-            context.Response.StatusCode = StatusCodes.Status400BadRequest; 
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
             await context.Response.WriteAsync("writeUid parameter is required.");
-            return; 
+            return;
         }
 
         string writeUidValue = context.Request.Query["writeUid"];
-        context.Items["writeUid"] = writeUidValue; 
-        
-        await _next(context); 
+        context.Items["writeUid"] = writeUidValue;
+
+        await _next(context);
     }
 }

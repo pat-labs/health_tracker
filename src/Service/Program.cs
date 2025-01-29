@@ -32,7 +32,7 @@ catch (Exception ex)
 var app = builder.Build();
 
 app.MapHealthChecks("/health");
-if (app.Environment.IsDevelopment())
+if (Environment.GetEnvironmentVariable("IS_IN_PRODUCTION"))
 {
    app.MapOpenApi();
    app.UseDeveloperExceptionPage();
@@ -42,7 +42,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
 
-app.UseWriteUidMiddleware(); 
+app.UseWriteUidMiddleware();
 
 var port = Environment.GetEnvironmentVariable("APP_PORT");
 if (!int.TryParse(port, out int appPort))

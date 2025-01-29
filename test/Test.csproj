@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>11.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+        
+    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Service\Service.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+    <PackageReference Include="xunit" Version="2.9.0"/>
+    <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.11.0"/>
+    <PackageReference Include="AutoFixture.Xunit2" Version="5.0.0-preview0012"/>
+    <PackageReference Include="FluentAssertions" Version="8.0.0"/>
+    <PackageReference Include="Moq" Version="4.20.0"/>
+  </ItemGroup>
+</Project>

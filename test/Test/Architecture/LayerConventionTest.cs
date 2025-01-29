@@ -7,7 +7,7 @@ using Service;
 
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
-namespace Tests.Units.Architecture
+namespace Test.Units.Architecture
 {
    public class LayerConventionTest
    {
