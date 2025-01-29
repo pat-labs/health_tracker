@@ -3,9 +3,9 @@ using System.Linq;
 using Domain.Model;
 using Domain.Except.Driving;
 
-namespace Domain.Builder
+namespace Domain.Factory
 {
-   public static class FoodItemBuilder
+   public static class FoodItemFactory
    {
       public static IdentifierAlgorithm Snowflake { get; } = IdentifierAlgorithm.SNOWFLAKE;
 

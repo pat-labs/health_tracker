@@ -5,6 +5,7 @@ using System.Reflection;
 //using Service;
 using Service.DrivingAdapter.Configuration;
 using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Configuration;
+using Service.DrivenAdapter.Middleware.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
+
+app.UseWriteUidMiddleware(); 
 
 var port = Environment.GetEnvironmentVariable("APP_PORT");
 if (!int.TryParse(port, out int appPort))

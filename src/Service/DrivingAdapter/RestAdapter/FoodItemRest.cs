@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
-using Domain.Builder;
+using Domain.Factory;
 using Domain.Model;
 using Domain.Port.Driving;
 using Service.DrivingAdapter.RestAdapter.Dto;
@@ -45,7 +45,7 @@ public class FoodItemRest : ControllerBase
    [ProducesResponseType(StatusCodes.Status400BadRequest)]
    public async Task<ActionResult<FoodItemDto>> FetchById(string foodItemId)
    {
-      string validationError = FoodItemBuilder.IsValidFoodItemId(foodItemId);
+      string validationError = FoodItemFactory.IsValidFoodItemId(foodItemId);
       if (!string.IsNullOrEmpty(validationError))
       {
          return BadRequest(validationError);
@@ -65,7 +65,7 @@ public class FoodItemRest : ControllerBase
    [ProducesResponseType(typeof(void), Status404NotFound)]
    public async Task<IActionResult> Delete(string foodItemId)
    {
-      string validationError = FoodItemBuilder.IsValidFoodItemId(foodItemId);
+      string validationError = FoodItemFactory.IsValidFoodItemId(foodItemId);
       if (!string.IsNullOrEmpty(validationError))
       {
          return BadRequest(validationError);
@@ -90,7 +90,7 @@ public class FoodItemRest : ControllerBase
       }
 
       FoodItem foodItem = FoodItemMapper.AdaptToModel(foodItemDto);
-      List<string> errors = FoodItemBuilder.IsValid(foodItem);
+      List<string> errors = FoodItemFactory.IsValid(foodItem);
       if (errors.Any())
       {
          return BadRequest(string.Join("\n", errors));
@@ -111,7 +111,7 @@ public class FoodItemRest : ControllerBase
       }
 
       FoodItem foodItem = FoodItemMapper.AdaptToModel(foodItemDto);
-      List<string> errors = FoodItemBuilder.IsValid(foodItem);
+      List<string> errors = FoodItemFactory.IsValid(foodItem);
       if (errors.Any())
       {
          return BadRequest(string.Join("\n", errors));
