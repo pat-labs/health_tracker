@@ -1,3 +1,5 @@
+using Serilog;
+using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -17,10 +19,14 @@ namespace Service.DrivingAdapter.RestAdapter;
 [Route("food_item")]
 public class FoodItemRest : ControllerBase
 {
+   private readonly ILogger<FoodItemRest> _logger;
+   private readonly IMapper _mapper;
    private readonly IFoodItemUseCase _foodItemUseCase;
 
-   public FoodItemRest(IFoodItemUseCase foodItemUseCase)
+   public FoodItemRest(ILogger<FoodItemRest> logger, IMapper mapper, IFoodItemUseCase foodItemUseCase)
    {
+      _logger = logger;
+      _mapper = mapper;
       _foodItemUseCase = foodItemUseCase;
    }
 
@@ -31,12 +37,12 @@ public class FoodItemRest : ControllerBase
    public async Task<List<FoodItemDto>> Fetch()
    {
       IEnumerable<FoodItem> foodItems = await _foodItemUseCase.Fetch();
-
       if (!foodItems.Any())
       {
          return new List<FoodItemDto>();
       }
-      return foodItems.Select(foodItem => FoodItemMapper.AdaptToDto(foodItem)).ToList();
+
+      return foodItems.Select(foodItem => _mapper.Map<FoodItemDto>(foodItem)).ToList();
    }
 
    [HttpGet("{foodItemId}")]
@@ -52,12 +58,12 @@ public class FoodItemRest : ControllerBase
       }
 
       FoodItem? foodItem = await _foodItemUseCase.FetchById(foodItemId);
-
       if (foodItem == null)
       {
          return NotFound();
       }
-      return Ok(FoodItemMapper.AdaptToDto(foodItem.Value));
+
+      return Ok(_mapper.Map<FoodItemDto>(foodItem.Value));
    }
 
    [HttpDelete("{foodItemId}")]
@@ -72,45 +78,61 @@ public class FoodItemRest : ControllerBase
       }
 
       await _foodItemUseCase.Delete(foodItemId);
+
       return NoContent();
    }
 
    [HttpPut("{foodItemId}")]
-   [ProducesResponseType(typeof(FoodItemDto), Status200OK)]
+   [ProducesResponseType(typeof(string), Status200OK)]
+   [ProducesResponseType(typeof(void), Status404NotFound)]
    [ProducesResponseType(typeof(void), Status400BadRequest)]
-   public async Task<ActionResult<FoodItemDto>> Update(string foodItemId, [FromBody] FoodItemDto foodItemDto)
+   public async Task<ActionResult<string>> Update(string foodItemId, [FromBody] FoodItemDto updateFoodItemDto)
    {
-      if (foodItemId != foodItemDto.FoodItemId)
+      _logger.LogError("UPDATE");
+      string validationError = FoodItemFactory.IsValidFoodItemId(foodItemId);
+      if (!string.IsNullOrEmpty(validationError))
       {
-         return BadRequest("Food item ID in the URL and body don't match");
-      }
-      if (!ModelState.IsValid)
-      {
-         return BadRequest(ModelState);
+         return BadRequest(validationError);
       }
 
-      FoodItem foodItem = FoodItemMapper.AdaptToModel(foodItemDto);
-      List<string> errors = FoodItemFactory.IsPartialValid(foodItem);
+      FoodItem? foodItem = await _foodItemUseCase.FetchById(foodItemId);
+      if (foodItem == null)
+      {
+         return NotFound();
+      }
+
+      FoodItem updatedFoodItem = foodItem.Value with
+      {
+         Name = updateFoodItemDto.Name ?? foodItem.Value.Name,
+         CaloriesPer100g = updateFoodItemDto.CaloriesPer100g ?? foodItem.Value.CaloriesPer100g,
+         ProteinPer100g = updateFoodItemDto.ProteinPer100g ?? foodItem.Value.ProteinPer100g,
+         CarbsPer100g = updateFoodItemDto.CarbsPer100g ?? foodItem.Value.CarbsPer100g,
+         FatPer100g = updateFoodItemDto.FatPer100g ?? foodItem.Value.FatPer100g
+      };
+      _logger.LogError("new foodItem: " + updatedFoodItem);
+
+      List<string> errors = FoodItemFactory.IsValid(updatedFoodItem);
       if (errors.Any())
       {
          return BadRequest(string.Join("\n", errors));
       }
 
-      await _foodItemUseCase.Update(foodItem);
-      return foodItemDto;
+      await _foodItemUseCase.Update(updatedFoodItem);
+
+      return Ok("OK");
    }
 
    [HttpPost]
    [ProducesResponseType(typeof(string), Status201Created)]
    [ProducesResponseType(typeof(string), Status400BadRequest)]
-   public async Task<ActionResult<FoodItemDto>> Create([FromBody] FoodItemDto foodItemDto)
+   public async Task<ActionResult<string>> Create([FromBody] FoodItemDto newFoodItemDto)
    {
       if (!ModelState.IsValid)
       {
          return BadRequest(ModelState);
       }
 
-      FoodItem foodItem = FoodItemMapper.AdaptToModel(foodItemDto);
+      FoodItem foodItem = _mapper.Map<FoodItem>(newFoodItemDto);
       List<string> errors = FoodItemFactory.IsValid(foodItem);
       if (errors.Any())
       {
@@ -118,6 +140,7 @@ public class FoodItemRest : ControllerBase
       }
 
       await _foodItemUseCase.Create(foodItem);
+
       return Ok("OK");
    }
 }

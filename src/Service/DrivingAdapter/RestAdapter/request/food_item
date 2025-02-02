@@ -17,11 +17,10 @@ deleteFoodItem() {
 
 createFoodItem() {
     id=$1
-    curl -X POST "$URL/food_item" \
+    curl -X POST "$URL/food_item?writeUId=$1" \
         --header 'Content-Type: application/json' \
         --header 'Accept: application/json' \
         -d '{
-            "writeUId":"'"$id"'",
             "foodItemId":"'"$id"'",
             "name":"Example Food",
             "caloriesPer100g":200.5,
@@ -32,11 +31,10 @@ createFoodItem() {
 }
 
 updateFoodItem() {
-    curl -X PUT "$URL/food_item/$1" \
+    curl -X PUT "$URL/food_item/$1?writeUId=$1" \
         --header 'Content-Type: application/json' \
         --header 'Accept: application/json' \
         -d '{
-            "writeUId":"'"$1"'",
             "FatPer100g": 10
         }'
 }
@@ -49,11 +47,11 @@ ID='1873071922225348608'
 # echo "Testing createFoodItem()"
 # createFoodItem "$ID"
 
-echo "Testing getFoodItem()"
-getFoodItem "$ID"
+# echo "Testing getFoodItem()"
+# getFoodItem "$ID"
 
-# echo "Testing updateFoodItem()"
-# updateFoodItem "$ID"
+echo "Testing updateFoodItem()"
+updateFoodItem "$ID"
 
 # echo "Testing getFoodItemById()"
 # getFoodItemById "$ID"

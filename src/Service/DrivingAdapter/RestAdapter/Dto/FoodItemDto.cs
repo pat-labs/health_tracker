@@ -3,4 +3,12 @@
 namespace Service.DrivingAdapter.RestAdapter.Dto;
 
 
-public record struct FoodItemDto(string FoodItemId, string Name, double CaloriesPer100g, double ProteinPer100g, double CarbsPer100g, double FatPer100g);
+public class FoodItemDto
+{
+    public string? FoodItemId { get; set; }
+    public string? Name { get; set; }
+    public double? CaloriesPer100g { get; set; }
+    public double? ProteinPer100g { get; set; }
+    public double? CarbsPer100g { get; set; }
+    public double? FatPer100g { get; set; }
+}

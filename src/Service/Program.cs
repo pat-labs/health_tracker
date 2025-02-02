@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using Serilog;
 
-//using Service;
 using Service.DrivingAdapter.Configuration;
 using Service.DrivenAdapter.DatabaseAdapter.PostgresAdapter.Configuration;
 using Service.DrivenAdapter.Middleware.Configuration;
@@ -10,7 +10,13 @@ using Service.DrivenAdapter.Middleware.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 builder.Services.AddOpenApi();
+
 builder.Services.AddHealthChecks();
 
 builder.Services.AddRouting(options =>
@@ -19,6 +25,8 @@ builder.Services.AddRouting(options =>
 });
 builder.Services.AddControllers();
 builder.Services.AddUseCases();
+
+builder.Services.AddAutoMapper(Assembly.Load(typeof(Program).Assembly.GetName().Name!));
 try
 {
    var connectionString = $"Host={Environment.GetEnvironmentVariable("POSTGRES_HOST")}:{Environment.GetEnvironmentVariable("POSTGRES_PORT")};Database={Environment.GetEnvironmentVariable("POSTGRES_DB")};User Id={Environment.GetEnvironmentVariable("POSTGRES_USER")};Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};";
